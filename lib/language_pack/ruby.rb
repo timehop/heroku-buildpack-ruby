@@ -348,6 +348,8 @@ ERROR
         run "bundle clean"
         cache_store ".bundle"
         cache_store "vendor/bundle"
+        cache_store "vendor/lib"
+        cache_store "vendor/include"
       else
         log "bundle", :status => "failure"
         error_message = "Failed to install gems via Bundler."

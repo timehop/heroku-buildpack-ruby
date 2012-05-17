@@ -319,17 +319,18 @@ ERROR
       version = run("env RUBYOPT=\"#{syck_hack}\" bundle version").strip
       topic("Installing dependencies using #{version}")
 
+      sqlite3_dir = "vendor"
+      install_sqlite3(sqlite3_dir)
+
+      # need to setup compile environment for the psych gem
+      sqlite3_include   = File.expand_path("#{sqlite3_dir}/include")
+      sqlite3_lib       = File.expand_path("#{sqlite3_dir}/lib")
+
       bundler_output = ""
       Dir.mktmpdir("libyaml-") do |tmpdir|
         libyaml_dir = "#{tmpdir}/#{LIBYAML_PATH}"
         install_libyaml(libyaml_dir)
 
-        sqlite3_dir = "#{tmpdir}/sqlite3"
-        install_sqlite3(sqlite3_dir)
-
-        # need to setup compile environment for the psych gem
-        sqlite3_include   = File.expand_path("#{sqlite3_dir}/include")
-        sqlite3_lib       = File.expand_path("#{sqlite3_dir}/lib")
         yaml_include   = File.expand_path("#{libyaml_dir}/include")
         yaml_lib       = File.expand_path("#{libyaml_dir}/lib")
         pwd            = run("pwd").chomp
